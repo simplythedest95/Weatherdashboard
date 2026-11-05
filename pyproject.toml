@@ -1,0 +1,29 @@
+[tool.pytest.ini_options]
+#Inställningar för pytest
+
+pythonpath = ["."]
+#Lägger projektetts rotmapp i pythons sökväg när testerna körs.
+
+testpaths = ["tests"]
+#Ser till att pytest letar efter testerna i mappen tests.
+
+addopts = "-v"
+#flagga som alltid läggs till, gör så att man ser namnen på testen som körs och gått igenom.
+
+[tool.ruff]
+#Inställningar för ruff
+
+line-length = 88
+#Max antal tecken per rad, appliceras på både ruff check och ruff format.
+
+[tool.ruff.lint]
+#Inställningar för kodkontrollen (ruff check).
+
+select = ["E", "F", "I", "N", "B", "UP"]
+#Bestämmer vilka regelgrupper ruff ska kontrollera.
+# E = stilfel enligt PEP 8 (t.ex intendering, spacing)
+# F = riktiga fel, t.ex. oanvända importer och odefinierade variabler
+# I = importordning
+# N = Namngivning, t.ex. camelCaseCase för funktioner
+# B = Vanliga buggmönster (-bugbear)
+# UP = föreslår modernare Python-syntax (f-strängar istället för .format() vilket resulterar i kortare och mer enhetlig kod.)
