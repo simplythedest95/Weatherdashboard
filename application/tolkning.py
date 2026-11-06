@@ -27,3 +27,14 @@ def tolka_dagar(data):
             }
         )
     return dagar
+
+def tolka_nuvarande(data):
+    """Plockar ut nuvarande väder ur API-svaret
+    med egna nyckelnamn"""
+    current=data["current"]
+    return{
+    "temperatur":current["temperature_2m"],
+    "vind":current["wind_speed_10m"],
+    "kod":current["weather_code"],
+    "tid":current["time"],
+    }

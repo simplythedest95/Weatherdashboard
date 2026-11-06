@@ -32,7 +32,7 @@ def test_tolka_dagar_ger_tre_dagar(exempelsvar):
 
 def test_tolka_nuvarande(exempelsvar):
     assert tolka_nuvarande(exempelsvar)=={
-        "time": "2026-11-06T12:45",
+        "tid": "2026-11-06T12:45",
         "temperatur": 5.7,
         "vind": 2.4,
         "kod": 0,
