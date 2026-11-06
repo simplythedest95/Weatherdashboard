@@ -13,7 +13,10 @@ def hitta_stad(namn):
     Tar emot ett stadsnamn, t.ex. "Stockholm"
     Returnerar stadens dict med namn, lat och lon,
     eller None om staden inte finns i listan"""
+    if not namn:
+        return None
+    sokt = namn.strip().casefold()
     for stad in STADER:
-        if stad["namn"] == namn:
+        if stad["namn"].casefold() == sokt:
             return stad
     return None
