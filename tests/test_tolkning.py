@@ -1,6 +1,6 @@
 from datetime import date
 
-from application.tolkning import tolka_dagar
+from application.tolkning import tolka_dagar, tolka_nuvarande
 
 
 def test_tolka_dagar_ger_tre_dagar(exempelsvar):
@@ -29,3 +29,11 @@ def test_tolka_dagar_ger_tre_dagar(exempelsvar):
             "kod": 3,
         },
     ]
+
+def test_tolka_nuvarande(exempelsvar):
+    assert tolka_nuvarande(exempelsvar)=={
+        "time": "2026-11-06T12:45",
+        "temperatur": 5.7,
+        "vind": 2.4,
+        "kod": 0,
+    }
