@@ -4,6 +4,8 @@ API_URL = "https://api.open-meteo.com/v1/forecast"
 # Timeout på 5 sekunder vid anrop
 TIMEOUT = 5
 
+class VaderTjanstFel(Exception):
+    """"""
 
 def hamta_prognos(lat, lon):
     """Hämtar nuvarande väder och tre dagars prognos.
@@ -14,7 +16,11 @@ def hamta_prognos(lat, lon):
         "latitude": lat,
         "longitude": lon,
     }
-    svar = requests.get(API_URL, params=params, timeout=TIMEOUT)
+    try:
+        svar = requests.get(API_URL, params=params, timeout=TIMEOUT)
+        svar.raise_for_status()
+        return svar.json()
+    except (requests.RequestException, ValueError) as fel:
+        raise VaderTjanstFel("Vädertjänsten svarar inte just nu.") from fel
+    
 
-    svar.raise_for_status()
-    return svar.json()
