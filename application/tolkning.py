@@ -1,4 +1,5 @@
 from datetime import date
+
 from application.vader_api import OgiltigtSvarError
 
 """Rena funktioner som tolkar svaret från Open-Meteo."""
@@ -11,6 +12,8 @@ def tolka_dagar(data):
         daily = data["daily"]
     except KeyError as fel:
         raise OgiltigtSvarError("Svaret saknar dagsprognos") from fel
+    if not daily["time"]:
+        raise OgiltigtSvarError("Svaret innehåller inga datum")
 
     dagar = []
 
