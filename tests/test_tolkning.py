@@ -64,11 +64,19 @@ def test_tolka_dagar_tom_tidslista_ger_ogiltigt_svar(exempelsvar):
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
 
+
 def test_tolka_dagar_olika_langa_listor_ger_ogiltigt_svar(exempelsvar):
     data = copy.deepcopy(exempelsvar)
-    data["daily"]["temperature_2m_max"]=[5.9]
+    data["daily"]["temperature_2m_max"] = [5.9]
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
+
+def test_tolka_dagar_bevarar_none(exempelsvar):
+    data = copy.deepcopy(exempelsvar)
+    data["daily"]["precipitation_sum"][1]=None
+    dagar=tolka_dagar(data)
+    assert dagar[1]["nederbord"] is None
+    assert len(dagar)==3
 
 
 pytest: ImportError
