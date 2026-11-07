@@ -48,4 +48,10 @@ def test_tolka_dagar_utan_daily(exempelsvar):
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
 
+def test_tolka_nuvarande_utan_current(exempelsvar):
+    data=copy.deepcopy(exempelsvar)
+    del data["current"]
+    with pytest.raises(OgiltigtSvarError):
+        tolka_nuvarande(data)
+        
 pytest:ImportError
