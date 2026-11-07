@@ -1,9 +1,10 @@
 import copy
-import pytest
-from application.vader_api import OgiltigtSvarError
 from datetime import date
 
+import pytest
+
 from application.tolkning import tolka_dagar, tolka_nuvarande
+from application.vader_api import OgiltigtSvarError
 
 
 def test_tolka_dagar_ger_tre_dagar(exempelsvar):
@@ -42,23 +43,32 @@ def test_tolka_nuvarande(exempelsvar):
         "kod": 0,
     }
 
+
 def test_tolka_dagar_utan_daily(exempelsvar):
-    data=copy.deepcopy(exempelsvar)
+    data = copy.deepcopy(exempelsvar)
     del data["daily"]
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
 
+
 def test_tolka_nuvarande_utan_current(exempelsvar):
-    data=copy.deepcopy(exempelsvar)
+    data = copy.deepcopy(exempelsvar)
     del data["current"]
     with pytest.raises(OgiltigtSvarError):
         tolka_nuvarande(data)
 
+
 def test_tolka_dagar_tom_tidslista_ger_ogiltigt_svar(exempelsvar):
-    data=copy.deepcopy(exempelsvar)
-    data["daily"]["time"]=[]
+    data = copy.deepcopy(exempelsvar)
+    data["daily"]["time"] = []
+    with pytest.raises(OgiltigtSvarError):
+        tolka_dagar(data)
+
+def test_tolka_dagar_olika_langa_listor_ger_ogiltigt_svar(exempelsvar):
+    data = copy.deepcopy(exempelsvar)
+    data["daily"]["temperature_2m_max"]=[5.9]
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
 
 
-pytest:ImportError
+pytest: ImportError
