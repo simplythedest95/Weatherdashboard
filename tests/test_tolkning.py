@@ -9,6 +9,22 @@ from application.vader_api import OgiltigtSvarError
 
 pytest: ImportError
 
+GILTIGA_IKONER = {
+"sun-fill",
+"cloud-sun-fill",
+"cloud-fill",
+"cloud-fog-fill",
+"cloud-drizzle-fill",
+"cloud-sleet-fill",
+"cloud-rain-fill",
+"cloud-rain-heavy-fill",
+"cloud-snow-fill",
+"snow",
+"cloud-lightning-fill",
+"cloud-hail-fill",
+"question-circle-fill",
+}
+
 @pytest.mark.parametrize("kod, forvantat",[
     pytest.param(0,("Klart","sun-fill"),id="klart"),
     pytest.param(3,("Mulet","clouds-fill"),id="mulet"),
@@ -19,6 +35,7 @@ pytest: ImportError
 ])
 def test_beskriv_vaderkod(kod,forvantat):
     assert beskriv_vaderkod(kod)==forvantat
+
 
 
 def test_tolka_dagar_ger_tre_dagar(exempelsvar):
