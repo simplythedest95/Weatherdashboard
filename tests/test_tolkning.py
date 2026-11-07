@@ -3,19 +3,19 @@ from datetime import date
 
 import pytest
 
-from application.tolkning import tolka_dagar, tolka_nuvarande, beskriv_vaderkod
+from application.tolkning import tolka_dagar, tolka_nuvarande, beskriv_vaderkod, OKANT_VADER, VADERKODER
 
 from application.vader_api import OgiltigtSvarError
 
 pytest: ImportError
 
 @pytest.mark.parametrize("kod, forvantat",[
-    pytest.param(0,("Klart","bi-sun"),id="klart"),
-    pytest.param(3,("Mulet","bi-cloud"),id="mulet"),
-    pytest.param(61,("Lätt regn","bi-cloud-rain"),id="latt-regn"),
-    pytest.param(95,("Åska","bi-cloud-lightning"),id="aska"),
-    pytest.param(999,("Okänt väder","bi-question-circle"),id="okand-kod"),
-    pytest.param(None,("Okänt väder","bi-question-circle"),id="none"),
+    pytest.param(0,("Klart","sun-fill"),id="klart"),
+    pytest.param(3,("Mulet","clouds-fill"),id="mulet"),
+    pytest.param(61,("Lätt regn","cloud-rain-fill"),id="latt-regn"),
+    pytest.param(95,("Åska","cloud-lightning-fill"),id="aska"),
+    pytest.param(999,OKANT_VADER,id="okand-kod"),
+    pytest.param(None,OKANT_VADER,id="none"),
 ])
 def test_beskriv_vaderkod(kod,forvantat):
     assert beskriv_vaderkod(kod)==forvantat
