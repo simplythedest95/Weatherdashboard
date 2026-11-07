@@ -9,9 +9,10 @@ class VaderTjanstError(Exception):
     """Kastas när vädertjänsten inte svarar
     eller svarar med ogitlig data."""
 
+
 class OgiltigtSvarError(VaderTjanstError):
     """API-svaret saknar data som behövs"""
-    
+
 
 def hamta_prognos(lat, lon):
     """Hämtar nuvarande väder och tre dagars prognos.

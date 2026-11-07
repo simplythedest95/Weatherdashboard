@@ -6,6 +6,8 @@ import pytest
 from application.tolkning import tolka_dagar, tolka_nuvarande
 from application.vader_api import OgiltigtSvarError
 
+pytest: ImportError
+
 
 def test_tolka_dagar_ger_tre_dagar(exempelsvar):
     dagar = tolka_dagar(exempelsvar)
@@ -44,13 +46,6 @@ def test_tolka_nuvarande(exempelsvar):
     }
 
 
-def test_tolka_dagar_utan_daily(exempelsvar):
-    data = copy.deepcopy(exempelsvar)
-    del data["daily"]
-    with pytest.raises(OgiltigtSvarError):
-        tolka_dagar(data)
-
-
 def test_tolka_nuvarande_utan_current(exempelsvar):
     data = copy.deepcopy(exempelsvar)
     del data["current"]
@@ -58,25 +53,46 @@ def test_tolka_nuvarande_utan_current(exempelsvar):
         tolka_nuvarande(data)
 
 
-def test_tolka_dagar_tom_tidslista_ger_ogiltigt_svar(exempelsvar):
-    data = copy.deepcopy(exempelsvar)
-    data["daily"]["time"][1] = None
-    with pytest.raises(OgiltigtSvarError):
-        tolka_dagar(data)
-
-
-def test_tolka_dagar_olika_langa_listor_ger_ogiltigt_svar(exempelsvar):
-    data = copy.deepcopy(exempelsvar)
-    data["daily"]["temperature_2m_max"] = [5.9]
-    with pytest.raises(OgiltigtSvarError):
-        tolka_dagar(data)
-
 def test_tolka_dagar_bevarar_none(exempelsvar):
     data = copy.deepcopy(exempelsvar)
-    data["daily"]["precipitation_sum"][1]=None
-    dagar=tolka_dagar(data)
+    data["daily"]["precipitation_sum"][1] = None
+    dagar = tolka_dagar(data)
     assert dagar[1]["nederbord"] is None
-    assert len(dagar)==3
+    assert len(dagar) == 3
 
 
-pytest: ImportError
+def utan_daily(data):
+    del data["daily"]
+
+
+def utan_datumnyckel(data):
+    del data["daily"]["time"]
+
+
+def tom_datumlista(data):
+    data["daily"]["time"] = []
+
+
+def olika_langa_listor(data):
+    data["daily"]["temperature_2m_max"] = [5.9]
+
+
+def none_som_datum(data):
+    data["daily"]["time"][1] = None
+
+
+@pytest.mark.parametrize(
+    "forstor",
+    [
+        pytest.param(utan_daily, id="daily-saknas"),
+        pytest.param(utan_datumnyckel, id="time-saknas"),
+        pytest.param(tom_datumlista, id="tom-datumlista"),
+        pytest.param(olika_langa_listor, id="olika-langd"),
+        pytest.param(none_som_datum, id="none-som-datum"),
+    ],
+)
+def test_tolka_dagar_avvisar_ogiltiga_svar(exempelsvar, forstor):
+    data = copy.deepcopy(exempelsvar)
+    forstor(data)
+    with pytest.raises(OgiltigtSvarError):
+        tolka_dagar(data)
