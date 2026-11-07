@@ -37,7 +37,10 @@ def tolka_dagar(data):
 def tolka_nuvarande(data):
     """Plockar ut nuvarande väder ur API-svaret
     med egna nyckelnamn"""
-    current = data["current"]
+    try:
+        current = data["current"]
+    except KeyError as fel:
+        raise OgiltigtSvarError("Svaret saknar nuvarande väderdata") from fel
     return {
         "temperatur": current["temperature_2m"],
         "vind": current["wind_speed_10m"],
