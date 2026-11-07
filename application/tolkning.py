@@ -10,30 +10,30 @@ def tolka_dagar(data):
     till en lista med en dict per dag"""
     try:
         daily = data["daily"]
-    except KeyError as fel:
-        raise OgiltigtSvarError("Svaret saknar dagsprognos") from fel
-    if not daily["time"]:
-        raise OgiltigtSvarError("Svaret innehåller inga datum")
+        if not daily["time"]:
+            raise OgiltigtSvarError("Svaret innehåller inga datum")
 
-    dagar = []
+        dagar = []
 
-    for tid, hogst, lagst, nederbord, kod in zip(
-        daily["time"],
-        daily["temperature_2m_max"],
-        daily["temperature_2m_min"],
-        daily["precipitation_sum"],
-        daily["weather_code"],
-        strict=True,
-    ):
-        dagar.append(
-            {
-                "datum": date.fromisoformat(tid),
-                "max": hogst,
-                "min": lagst,
-                "nederbord": nederbord,
-                "kod": kod,
-            }
-        )
+        for tid, hogst, lagst, nederbord, kod in zip(
+            daily["time"],
+            daily["temperature_2m_max"],
+            daily["temperature_2m_min"],
+            daily["precipitation_sum"],
+            daily["weather_code"],
+            strict=True,
+        ):
+            dagar.append(
+                {
+                    "datum": date.fromisoformat(tid),
+                    "max": hogst,
+                    "min": lagst,
+                    "nederbord": nederbord,
+                    "kod": kod,
+                }
+            )
+    except (KeyError, ValueError) as fel:
+        raise OgiltigtSvarError("Svaret från vädertjänsten är ofullständigt") from fel
     return dagar
 
 
