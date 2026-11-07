@@ -1,4 +1,5 @@
 from datetime import date
+from application.vader_api import OgiltigtSvarError
 
 """Rena funktioner som tolkar svaret från Open-Meteo."""
 
@@ -6,7 +7,11 @@ from datetime import date
 def tolka_dagar(data):
     """Gör om daily-delen av API-svaret
     till en lista med en dict per dag"""
-    daily = data["daily"]
+    try:
+        daily = data["daily"]
+    except KeyError as fel:
+        raise OgiltigtSvarError("Svaret saknar dagsprognos") from fel
+
     dagar = []
 
     for tid, hogst, lagst, nederbord, kod in zip(
