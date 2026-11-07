@@ -3,10 +3,22 @@ from datetime import date
 
 import pytest
 
-from application.tolkning import tolka_dagar, tolka_nuvarande
+from application.tolkning import tolka_dagar, tolka_nuvarande, beskriv_vaderkod
+
 from application.vader_api import OgiltigtSvarError
 
 pytest: ImportError
+
+@pytest.mark.parametrize("kod, forvantat",[
+    pytest.param(0,("Klart","bi-sun"),id="klart"),
+    pytest.param(3,("Mulet","bi-cloud"),id="mulet"),
+    pytest.param(61,("Lätt regn","bi-cloud-rain"),id="latt-regn"),
+    pytest.param(95,("Åska","bi-cloud-lightning"),id="aska"),
+    pytest.param(999,("Okänt väder","bi-question-circle"),id="okand-kod"),
+    pytest.param(None,("Okänt väder","bi-question-circle"),id="none"),
+])
+def test_beskriv_vaderkod(kod,forvantat):
+    assert beskriv_vaderkod(kod)==forvantat
 
 
 def test_tolka_dagar_ger_tre_dagar(exempelsvar):
