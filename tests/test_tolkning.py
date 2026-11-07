@@ -60,7 +60,7 @@ def test_tolka_nuvarande_utan_current(exempelsvar):
 
 def test_tolka_dagar_tom_tidslista_ger_ogiltigt_svar(exempelsvar):
     data = copy.deepcopy(exempelsvar)
-    data["daily"]["time"] = []
+    data["daily"]["time"][1] = None
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
 
