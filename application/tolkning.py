@@ -32,7 +32,7 @@ def tolka_dagar(data):
                     "kod": kod,
                 }
             )
-    except (KeyError, ValueError) as fel:
+    except (KeyError, ValueError, TypeError) as fel:
         raise OgiltigtSvarError("Svaret från vädertjänsten är ofullständigt") from fel
     return dagar
 
