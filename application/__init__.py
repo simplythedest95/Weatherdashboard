@@ -11,4 +11,7 @@ def create_app(config=None):
     from application.routes import main
 
     app.register_blueprint(main)
+    from application.felsidor import sida_saknas
+
+    app.register_error_handler(404, sida_saknas)
     return app
