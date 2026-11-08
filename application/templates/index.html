@@ -1,5 +1,5 @@
 <h1>Hur blir vädret?</h1>
-<form action="/prognos"
+<form action="{{ url_for("main.prognos") }}"
 method="get">
 <label for="stad">Stad</label>
 <select id="stad" name="stad">

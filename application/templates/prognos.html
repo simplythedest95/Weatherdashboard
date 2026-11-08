@@ -1,0 +1,17 @@
+<h1>{{ stad.namn }}</h1>
+<p>Just nu:{{ nu.temperatur | temperatur }}, vind {{ nu.vind | vind }}</p>
+<table>
+    <caption>Prognos tre dagar</caption>
+<tr><th>Datum</th>
+<th>Högst</th><th>Lägst</th>
+<th>Nederbörd</th></tr>
+{% for dag in dagar %}
+<tr>
+    <td>{{ dag.datum | veckodag }}</td>
+    <td>{{ dag.max | temperatur }}</td>
+    <td>{{ dag.min | temperatur }}</td>
+    <td>{{ dag.nederbord | nederbord }}</td>
+</tr>
+{% endfor %}
+</table>
+<a href="{{ url_for("main.index")}}>Byt stad</a>"
