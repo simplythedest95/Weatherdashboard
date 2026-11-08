@@ -1,0 +1,24 @@
+:root{
+    --vader-bakgrund: #2C2922;
+    --vader-yta: #35312A;
+    --vader-linje: #4A453B;
+    --vader-text: #EDE8DD;
+    --vader-dampad: #A39B8A;
+    --vader-accent: #505B44;
+    --vader-max: #D9925A;
+    --vader-min: #A9C3CE;
+    /* få Bootstrap att använda färgerna */
+    --bs-body-bg: var(--vader-bakgrund);
+    --bs-body-color: var(--vader-text);
+    --bs-border-color: var(--vader-linje);
+    --bs-link-color: var(--vader-text);
+    --bs-body-font-family: "Inter", system-ui, sans-serif;
+}
+
+h1, h2, h3, .siffra {
+    font-family: "Manrope", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+body { font-variant-numeric: tabular-nums;}

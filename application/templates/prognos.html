@@ -2,7 +2,7 @@
 {% block title %}{{ stad.namn }} - Väderappen {% endblock %}
 {% block content %}
 <h1>{{ stad.namn }}</h1>
-<p>Just nu:{{ nu.temperatur | temperatur }}, vind {{ nu.vind | vind }}</p>
+<p>Just nu: {{ nu.temperatur | temperatur }}, vind {{ nu.vind | vind }}</p>
 <table>
     <caption>Prognos tre dagar</caption>
 <tr><th>Datum</th>
@@ -17,5 +17,5 @@
 </tr>
 {% endfor %}
 </table>
-<a href="{{ url_for("main.index")}}>Byt stad</a>"
+<a href="{{ url_for("main.index")}}">Byt stad</a>
 {% endblock %}
