@@ -1,6 +1,6 @@
 import pytest
 
-from application.filter import SAKNAS, temperatur
+from application.filter import SAKNAS, temperatur, vind
 
 GRADER = " \u00b0C"  # Mellanslag plus gradertecken efterföljt av C för celsius.
 MINUS = "\u2212"  # Riktigt minustecken istället för bindestreck
@@ -18,3 +18,15 @@ MINUS = "\u2212"  # Riktigt minustecken istället för bindestreck
 )
 def test_temperatur(varde, forvantat):
     assert temperatur(varde) == forvantat
+
+
+@pytest.mark.parametrize(
+    "varde, forvantat",
+    [
+        pytest.param(3.46,"3,5 m/s",id="avrundning"),
+        pytest.param(0,"0,0 m/s",id="vindstilla"),
+        pytest.param(12,"12,0 m/s",id="heltal"),
+        pytest.param(None,SAKNAS,id="saknas"),      
+ ])
+def test_vind(varde,forvantat):
+    assert vind(varde)==forvantat
