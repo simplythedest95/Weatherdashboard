@@ -36,7 +36,8 @@ VADERKODER = {
     99: ("Åska med kraftigt hagel", "cloud-lightning-rain-fill"),
 }
 
-OKANT_VADER=("Okänt väder","question-circle-fill")
+OKANT_VADER = ("Okänt väder", "question-circle-fill")
+
 
 def beskriv_vaderkod(kod):
     """Översätter en WMO-väderkod till svenksk text och ett ikonnamn.

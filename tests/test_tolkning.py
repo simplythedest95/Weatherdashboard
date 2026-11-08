@@ -3,44 +3,67 @@ from datetime import date
 
 import pytest
 
-from application.tolkning import tolka_dagar, tolka_nuvarande, beskriv_vaderkod, OKANT_VADER, VADERKODER
-
+from application.tolkning import (
+    OKANT_VADER,
+    VADERKODER,
+    beskriv_vaderkod,
+    tolka_dagar,
+    tolka_nuvarande,
+)
 from application.vader_api import OgiltigtSvarError
 
-pytest: ImportError
-
 GILTIGA_IKONER = {
-"sun-fill",
-"cloud-sun-fill",
-"cloud-fill",
-"cloud-fog-fill",
-"cloud-drizzle-fill",
-"cloud-sleet-fill",
-"cloud-rain-fill",
-"cloud-rain-heavy-fill",
-"cloud-snow-fill",
-"snow",
-"cloud-lightning-fill",
-"cloud-hail-fill",
-"question-circle-fill",
+    "sun-fill",
+    "cloud-sun-fill",
+    "cloud-fill",
+    "clouds-fill",
+    "cloud-fog-fill",
+    "cloud-drizzle-fill",
+    "cloud-sleet-fill",
+    "cloud-rain-fill",
+    "cloud-rain-heavy-fill",
+    "cloud-snow-fill",
+    "snow",
+    "cloud-lightning-fill",
+    "cloud-lightning-rain-fill",
+    "cloud-hail-fill",
+    "question-circle-fill",
+    "lightning-charge-fill",
 }
 
-@pytest.mark.parametrize("kod, forvantat",[
-    pytest.param(0,("Klart","sun-fill"),id="klart"),
-    pytest.param(3,("Mulet","clouds-fill"),id="mulet"),
-    pytest.param(61,("Lätt regn","cloud-rain-fill"),id="latt-regn"),
-    pytest.param(95,("Åska","cloud-lightning-fill"),id="aska"),
-    pytest.param(999,OKANT_VADER,id="okand-kod"),
-    pytest.param(None,OKANT_VADER,id="none"),
-])
-def test_beskriv_vaderkod(kod,forvantat):
-    assert beskriv_vaderkod(kod)==forvantat
 
+@pytest.mark.parametrize(
+    "kod, forvantat",
+    [
+        pytest.param(0, ("Klart", "sun-fill"), id="klart"),
+        pytest.param(3, ("Mulet", "clouds-fill"), id="mulet"),
+        pytest.param(61, ("Lätt regn", "cloud-rain-fill"), id="latt-regn"),
+        pytest.param(95, ("Åska", "cloud-lightning-fill"), id="aska"),
+        pytest.param(999, OKANT_VADER, id="okand-kod"),
+        pytest.param(None, OKANT_VADER, id="none"),
+    ],
+)
+def test_beskriv_vaderkod(kod, forvantat):
+    assert beskriv_vaderkod(kod) == forvantat
+
+
+def test_alla_vaderkoder_har_giltig_ikon():
+    fel = [
+        (kod, ikon)
+        for kod, (_, ikon) in VADERKODER.items()
+        if ikon not in GILTIGA_IKONER
+    ]
+    assert fel == [], f"okända ikoner:{fel}"
+    for kod, (text, _) in VADERKODER.items():
+        assert text, f"kod {kod} saknar text"
+
+
+def test_okant_vader_har_giltig_ikon():
+    assert OKANT_VADER[1] in GILTIGA_IKONER
 
 
 def test_tolka_dagar_ger_tre_dagar(exempelsvar):
     dagar = tolka_dagar(exempelsvar)
-    assert len(dagar) == 3
     assert dagar == [
         {
             "datum": date(2026, 11, 6),
