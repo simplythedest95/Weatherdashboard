@@ -2,6 +2,7 @@ import pytest
 
 from application.filter import SAKNAS, temperatur, vind, nederbord
 
+
 GRADER = " \u00b0C"  # Mellanslag plus gradertecken efterföljt av C för celsius.
 MINUS = "\u2212"  # Riktigt minustecken istället för bindestreck
 
@@ -35,9 +36,9 @@ def test_vind(varde,forvantat):
 @pytest.mark.parametrize(
     "varde, forvantat",
     [
-        pytest.param(1.2,"1,2mm",id="nederbord"),
-        pytest.param(0,"0,0mm",id="ingen-nederbord"),
-        pytest.param(15,75,"15,8mm",id="avrundning"),
+        pytest.param(1.2,"1,2 mm",id="nederbord"),
+        pytest.param(0,"0,0 mm",id="ingen-nederbord"),
+        pytest.param(15.75,"15,8 mm",id="avrundning"),
         pytest.param(None,SAKNAS,id="saknas"),
     ])        
 

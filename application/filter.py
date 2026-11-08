@@ -3,6 +3,8 @@
 MINUS = "\u2212"  # riktigt minustecken
 SAKNAS = "\u2013"  # Visas när ett värde saknas
 GRADER = " °C"  # Celsius tecknet
+MS= "m/s" #Meter per sekund
+MM= "mm" #Milimeter
 
 
 def _formatera_tal(varde):
@@ -26,4 +28,10 @@ def vind(varde):
     """Formaterar en vindhastighet, t.ex 3,5m/s"""
     if varde is None:
         return SAKNAS
-    return f"{_formatera_tal(varde)} m/s"
+    return f"{_formatera_tal(varde)} {MS}"
+
+def nederbord(varde):
+    """Formaterar en mängd nederbord, t.ex 1,2mm"""
+    if varde is None:
+        return SAKNAS
+    return f"{_formatera_tal(varde)} {MM}"
