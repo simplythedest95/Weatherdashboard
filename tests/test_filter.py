@@ -1,7 +1,8 @@
 import pytest
 
-from application.filter import SAKNAS, nederbord, temperatur, vind
+from application.filter import SAKNAS, nederbord, temperatur, vind, veckodag
 
+from datetime import date
 GRADER = " \u00b0C"  # Mellanslag plus gradertecken efterföljt av C för celsius.
 MINUS = "\u2212"  # Riktigt minustecken istället för bindestreck
 
@@ -44,3 +45,16 @@ def test_vind(varde, forvantat):
 )
 def test_nederbord(varde, forvantat):
     assert nederbord(varde) == forvantat
+
+@pytest.mark.parametrize(
+    "datum, forvantat",
+    [
+        pytest.param(date(2026,11,6),"Fredag 6 Nov",id="fredag"),
+        pytest.param(date(2026,11,9),"Måndag 9 Nov",id="mandag-forsta-i-listan"),
+        pytest.param(date(2027,1,3),"Söndag 3 jan",id="sondag-och-januari"),
+        pytest.param(None,SAKNAS,id="saknas"),
+    ])
+
+def test_veckodag(datum,forvantat):
+    assert veckodag(datum)==forvantat
+
