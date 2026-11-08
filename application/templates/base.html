@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="sv">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+        content=""width=device-width, 
+        initial-sacle="1">
+        <title>{% block title %}Väderappen{% endblock %}</title>
+    </head>
+    <body>
+        <header>
+            <a href="{{ url_for("main.index")}}">Väderappen</a>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            Väderdata från <a href="https://open-meteo.com/">Open-Meteo.com</a>
+            (<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)
+        </footer>
+    </body>
+</html>

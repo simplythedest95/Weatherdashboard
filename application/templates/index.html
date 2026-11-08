@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <h1>Hur blir vädret?</h1>
 <form action="{{ url_for("main.prognos") }}"
 method="get">
@@ -9,3 +11,4 @@ method="get">
 </select>
 <button type="submit">Visa prognos</button>
 </form>
+{% endblock %}

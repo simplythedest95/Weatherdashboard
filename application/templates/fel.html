@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ rubrik }} - Väderappen{% endblock %}
+{% block content %}
 <h1>{{ rubrik }}</h1>
 <p>{{ text }}</p>
 <a href=" {{ url_for("main.index") }}">Tillbaka till start</a>
+{% endblock %}
