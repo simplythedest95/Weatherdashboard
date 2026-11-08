@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request
 
 from application.stader import STADER, hitta_stad
 from application.tolkning import tolka_dagar, tolka_nuvarande
-from application.vader_api import hamta_prognos
+from application.vader_api import VaderTjanstError, hamta_prognos
 
 main = Blueprint("main", __name__)
 
@@ -18,11 +18,23 @@ def index():
 @main.route("/prognos")
 def prognos():
     """Visar nuvarande väder och tre dagars prognos för vald stad"""
-    stad = hitta_stad(request.args.get("stad"))
-    data = hamta_prognos(stad["lat"], stad["lon"])
-    return render_template(
-        "prognos.html",
-        stad=stad,
-        nu=tolka_nuvarande(data),
-        dagar=tolka_dagar(data),
-    )
+    namn = request.args.get("stad", "").strip()
+    if not namn:
+        return render_template(
+            "fel.html", rubrik="Ingen stad vald", text="Välj en stad i listan."
+        ), 400
+    stad = hitta_stad(namn)
+    if stad is None:
+        return render_template(
+            "fel.html", rubrik="Staden finns inte", text=f"{namn} finns inte i listan."
+        ), 404
+    try:
+        data = hamta_prognos(stad["lat"], stad["lon"])
+        nu = tolka_nuvarande(data)
+        dagar = tolka_dagar(data)
+    except VaderTjanstError as fel:
+        return render_template(
+            "fel.html", rubrik="Vädertjänsten svarar inte", text=str(fel)
+        ), 502
+
+    return render_template("prognos.html", stad=stad, nu=nu, dagar=dagar)
