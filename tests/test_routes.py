@@ -4,21 +4,25 @@ from application.stader import STADER
 from application.vader_api import VaderTjanstError
 
 
-@pytest.mark.paramtrize("adress"
-,[
-    pytest.param("/",id="start"),
-    pytest.param("/prognos?stad=Kiruna",id="prognos"),
-    pytest.param("/prognos",id="fel-400"),
-    pytest.param("/finns-inte",id="fel-404"),
-    ])
-def test_alla_sidor_anger_kalla(klient,mock_api, adress):
+@pytest.mark.parametrize(
+    "adress",
+    [
+        pytest.param("/", id="start"),
+        pytest.param("/prognos?stad=Kiruna", id="prognos"),
+        pytest.param("/prognos", id="fel-400"),
+        pytest.param("/finns-inte", id="fel-404"),
+    ],
+)
+def test_alla_sidor_anger_kalla(klient, mock_api, adress):
     html = klient.get(adress).get_data(as_text=True)
     assert "Open-Meteo" in html
     assert "CC BY 4.0" in html
 
+
 def test_prognossidan_har_stadens_namn_i_titeln(klient, mock_api):
     html = klient.get("/prognos?stad=Kiruna").get_data(as_text=True)
     assert "<title>Kiruna" in html
+
 
 @pytest.mark.parametrize(
     "adress, status, text",

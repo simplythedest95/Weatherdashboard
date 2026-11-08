@@ -1,6 +1,8 @@
 [tool.pytest.ini_options]
 #Inställningar för pytest
 
+adopts="-q --strict-markers"
+
 pythonpath = ["."]
 #Lägger projektetts rotmapp i pythons sökväg när testerna körs.
 

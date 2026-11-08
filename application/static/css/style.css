@@ -22,3 +22,27 @@ h1, h2, h3, .siffra {
 }
 
 body { font-variant-numeric: tabular-nums;}
+
+.etikett {
+    font-size: .875rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--vader-dampad);
+}
+
+.rubrik-stor {
+    font-size: clamp(3rem, 7vw, 5rem);
+    line-height: 1;
+}
+.btn-vader {
+    background: var(--vader-accent);
+    color: var(--vader-text);
+    border: 0;
+}
+.btn-vader:hover { background: #5E6A50; color: #fff;}
+.form-select {
+    background-color: var(--vader-yta);
+    color: var(--vader-text);
+    border-color: #5C5649;
+}
+

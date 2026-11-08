@@ -1,14 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Hur blir vädret?</h1>
-<form action="{{ url_for("main.prognos") }}"
-method="get">
-<label for="stad">Stad</label>
-<select id="stad" name="stad">
-{% for stad in stader %}
-<option>{{stad.namn}}</option>
-{% endfor %}
-</select>
-<button type="submit">Visa prognos</button>
-</form>
+<div class="row align-items-center g-5">
+    <section class="col-lg-7">
+        <p class="etikett">01. Välj stad</p>
+        <h1 class="rubrik-stor mb-4">Hur blir vädret?</h1>
+        <p class="fs-5 mb-4" style="color:var(--vader-dampad)">Vädret just nu och tre dagar framåt för fem svenska städer.</p>
+        <form action="{{ url_for("main.prognos") }}" method="get" class="row g-2">
+        <div class="col-sm">
+            <label for="stad" class="form-label">Stad</label>
+            <select id="stad" name="stad" class="form-select form-select-lg">
+                    {% for stad in stader %}
+                    <option>{{stad.namn}}</option>
+                    {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-auto d-flex align-items-end">
+            <button type="submit" class="btn btn-vader btn-lg w-100">Visa prognos<i class="bi bi-arrow-right" aria-hidden="true"></i>
+            </button>
+        </div>
+        </form> 
+    </section>
+    <section class="col-lg-5" aria-label="Karta">
+        <p class="etikett">02. Eller tryck på kartan</p>
+        <p style="color: var(--vader-dampad)">Kartan kommer i fas 10b</p>
+    </section>
+</div>
 {% endblock %}
