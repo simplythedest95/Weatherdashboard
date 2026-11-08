@@ -89,22 +89,6 @@ def test_tolka_dagar_ger_tre_dagar(exempelsvar):
     ]
 
 
-def test_tolka_nuvarande(exempelsvar):
-    assert tolka_nuvarande(exempelsvar) == {
-        "tid": "2026-11-06T12:45",
-        "temperatur": 5.7,
-        "vind": 2.4,
-        "kod": 0,
-    }
-
-
-def test_tolka_nuvarande_utan_current(exempelsvar):
-    data = copy.deepcopy(exempelsvar)
-    del data["current"]
-    with pytest.raises(OgiltigtSvarError):
-        tolka_nuvarande(data)
-
-
 def test_tolka_dagar_bevarar_none(exempelsvar):
     data = copy.deepcopy(exempelsvar)
     data["daily"]["precipitation_sum"][1] = None
@@ -148,3 +132,19 @@ def test_tolka_dagar_avvisar_ogiltiga_svar(exempelsvar, forstor):
     forstor(data)
     with pytest.raises(OgiltigtSvarError):
         tolka_dagar(data)
+
+
+def test_tolka_nuvarande(exempelsvar):
+    assert tolka_nuvarande(exempelsvar) == {
+        "tid": "2026-11-06T12:45",
+        "temperatur": 5.7,
+        "vind": 2.4,
+        "kod": 0,
+    }
+
+
+def test_tolka_nuvarande_utan_current(exempelsvar):
+    data = copy.deepcopy(exempelsvar)
+    del data["current"]
+    with pytest.raises(OgiltigtSvarError):
+        tolka_nuvarande(data)

@@ -1,5 +1,7 @@
 import pytest
 
+from application import create_app
+
 
 @pytest.fixture
 def exempelsvar():
@@ -24,3 +26,15 @@ def exempelsvar():
             "weather_code": [3, 3, 3],
         },
     }
+
+
+@pytest.fixture
+def app():
+    """En ny app i testläge för varje test"""
+    return create_app({"TESTING": True})
+
+
+@pytest.fixture
+def klient(app):
+    """Testklient som gör låtsas-anrop till appen"""
+    return app.test_client()
