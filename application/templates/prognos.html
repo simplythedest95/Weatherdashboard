@@ -1,21 +1,50 @@
 {% extends "base.html" %}
+{% from "_makron.html" import dagkort %}
 {% block title %}{{ stad.namn }} - Väderappen {% endblock %}
 {% block content %}
-<h1>{{ stad.namn }}</h1>
-<p>Just nu: {{ nu.temperatur | temperatur }}, vind {{ nu.vind | vind }}</p>
-<table>
-    <caption>Prognos tre dagar</caption>
-<tr><th>Datum</th>
-<th>Högst</th><th>Lägst</th>
-<th>Nederbörd</th></tr>
-{% for dag in dagar %}
-<tr>
-    <td>{{ dag.datum | veckodag }}</td>
-    <td>{{ dag.max | temperatur }}</td>
-    <td>{{ dag.min | temperatur }}</td>
-    <td>{{ dag.nederbord | nederbord }}</td>
-</tr>
-{% endfor %}
-</table>
-<a href="{{ url_for("main.index")}}">Byt stad</a>
+{% set nu_text, nu_ikon = nu.kod | vaderkod %}
+
+<a href="{{ url_for('main.index') }}" class="text-decoration-none small">
+    <i class="bi bi-arrow-left" aria-hidden="true"></i> Byt stad</a>
+
+<h1 class="rubrik-stor mt-2 mb-5">{{ stad.namn }}</h1>
+
+<section class="just-nu mb-5" aria-labelledby="justnu">
+    <p id="justnu" class="etikett" style="color: #D6D9C8">01. Just nu</p>
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
+        <p class="temp siffra m-0">{{ nu.temperatur | temperatur }}</p>
+        <p class="fs-4 m-0"><i class="bi bi-{{ nu_ikon }} me-2" aria-hidden="true"></i>{{ nu_text }}</p>
+    </div>
+    <p class="mt-4 mb-0">Vind {{ nu.vind | vind }}</p>
+</section>
+
+<h2 class="etikett">02. Tre dagar framåt</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+    {% for dag in dagar %}
+    {{ dagkort(dag, "Idag" if loop.first else (dag.datum | veckodag)) }}
+    {% endfor %}
+</div>
+
+<h2 class="etikett">03. I tabellform</h2>
+<div class="table-responsive">
+    <table class="table">
+        <caption>Prognos tre dagar</caption>
+        <tr>
+            <th>Datum</th>
+            <th>Högst</th>
+            <th>Lägst</th>
+            <th>Nederbörd</th>
+        </tr>
+        {% for dag in dagar %}
+        <tr>
+            <td>{{ dag.datum | veckodag }}</td>
+            <td>{{ dag.max | temperatur }}</td>
+            <td>{{ dag.min | temperatur }}</td>
+            <td>{{ dag.nederbord | nederbord }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+</div>
 {% endblock %}

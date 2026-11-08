@@ -2,6 +2,8 @@
 
 from flask import Flask
 
+from application.tolkning import beskriv_vaderkod
+
 
 def create_app(config=None):
     """Skapar och konfigurerar en ny app"""
@@ -9,6 +11,8 @@ def create_app(config=None):
     if config:
         app.config.update(config)
     from application.routes import main
+
+    app.add_template_filter(beskriv_vaderkod, name="vaderkod")
 
     app.register_blueprint(main)
     from application.felsidor import sida_saknas

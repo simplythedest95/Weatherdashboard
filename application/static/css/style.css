@@ -45,4 +45,17 @@ body { font-variant-numeric: tabular-nums;}
     color: var(--vader-text);
     border-color: #5C5649;
 }
-
+.just-nu{
+    background: var(--vader-accent);
+    border-radius: 6px;
+    padding: 2.5rem;
+}
+.just-nu .temp{
+    font-size: clamp(4rem, 10vw, 7.5rem);
+    line-height: .9;
+}
+.table {
+--bs-table-bg: transparent;
+--bs-table-color: var(--vader-text);
+--bs-table-border-color: var(--vader-linje);
+}
