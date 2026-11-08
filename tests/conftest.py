@@ -38,3 +38,13 @@ def app():
 def klient(app):
     """Testklient som gör låtsas-anrop till appen"""
     return app.test_client()
+
+
+@pytest.fixture
+def mock_api(monkeypatch, exempelsvar):
+    """Ersätter API-anropet i routes med exemeplesvaret,
+    så att inget nätverk används."""
+    monkeypatch.setattr(
+        "application.routes.hamta_prognos",
+        lambda lat, lon: exempelsvar,
+    )
