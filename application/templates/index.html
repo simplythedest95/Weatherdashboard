@@ -1,0 +1,11 @@
+<h1>Hur blir vädret?</h1>
+<form action="/prognos"
+method="get">
+<label for="stad">Stad</label>
+<select id="stad" name="stad">
+{% for stad in stader %}
+<option>{{stad.namn}}</option>
+{% endfor %}
+</select>
+<button type="submit">Visa prognos</button>
+</form>
